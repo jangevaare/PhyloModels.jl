@@ -44,10 +44,10 @@ end
 
 
 function show(io::IO, object::Sequence)
-  if object.length <= 26
-    print(io, "TCAG"[[findfirst(object.nucleotides[:,i]) for i=1:object.length]])
+  if length(object) <= 26
+    print(io, "TCAG"[[findfirst(object.nucleotides[:,i]) for i=1:length(object)]])
   else
-    print(io, "TCAG"[[findfirst(object.nucleotides[:,i]) for i=1:13]] * "..." * "TCAG"[[findfirst(object.nucleotides[:,i]) for i=object.length-13:object.length]])
+    print(io, "TCAG"[[findfirst(object.nucleotides[:,i]) for i=1:13]] * "..." * "TCAG"[[findfirst(object.nucleotides[:,i]) for i=length(object)-13:length(object)]])
   end
 end
 
