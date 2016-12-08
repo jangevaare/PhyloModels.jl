@@ -42,6 +42,7 @@ export
   propose,
 
   # Simulation
+  simulate,
   simulate!,
 
   # Loglikelihoods

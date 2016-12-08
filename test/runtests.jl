@@ -58,7 +58,7 @@ model = JC69([1.0e-5])
 g.nodes[1].data = Nullable(Sequence(convert(Array{Bool, 2}, rand(Multinomial(1, model.π), 1000))))
 simulate!(g, JC69([1.0e-5]), rand(Gamma(1.), 1000))
 for i = 1:length(g.nodes)
-  @test length(get(g.nodes[i])) == 1000
+  @test length(getdata(g.nodes[i])) == 1000
 end
 
 # 3.0 Inference
@@ -81,11 +81,11 @@ addbranch!(tree, 8, 5, 0.2)
 
 # Set state of leaf nodes
 leaves = findleaves(tree)
-tree.nodes[leaves[1]].data = Nullable(Sequence("T"))
-tree.nodes[leaves[2]].data = Nullable(Sequence("C"))
-tree.nodes[leaves[3]].data = Nullable(Sequence("A"))
-tree.nodes[leaves[4]].data = Nullable(Sequence("C"))
-tree.nodes[leaves[5]].data = Nullable(Sequence("C"))
+setdata!(tree.nodes[leaves[1]], Sequence("T"))
+setdata!(tree.nodes[leaves[2]], Sequence("C"))
+setdata!(tree.nodes[leaves[3]], Sequence("A"))
+setdata!(tree.nodes[leaves[4]], Sequence("C"))
+setdata!(tree.nodes[leaves[5]], Sequence("C"))
 
 # Parametrize substitution model
 model = K80([2.])
