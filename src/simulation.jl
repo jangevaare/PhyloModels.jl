@@ -35,13 +35,10 @@ function simulate!{B<:Any}(tree::Tree{Sequence, B},
   # Iterate through remaining nodes
   for i in visit_order[2:end]
     source = tree.branches[tree.nodes[i].in[1]].source
+    source_seq = getdata(tree.nodes[source])
     branch_length = tree.branches[tree.nodes[i].in[1]].length
-    seq = getdata(tree.nodes[source])
-    for j in 1:length(seq)
-      p = P(mod, branch_length * site_rates[j])
-      seq.nucleotides[:,j] = rand(Multinomial(1, (seq.nucleotides[:,j]' * p)[:]))
-    end
-    setdata!(tree.nodes[i], seq)
+    seq = [findfirst(rand(Multinomial(1, (source_seq.nucleotides[:, j]' * P(mod, branch_length * site_rates[j]))[:]))) for j = 1:length(source_seq)]
+    setdata!(tree.nodes[i], Sequence(seq))
   end
   return tree
 end
