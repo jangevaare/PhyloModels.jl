@@ -30,11 +30,11 @@ The log likelihood of phylogenetic trees can be calculated when genetic sequence
 
     > # Set state of leaf nodes
     > leaves = findleaves(tree)
-    > tree.nodes[leaves[1]].data = Nullable(Sequence("T"))
-    > tree.nodes[leaves[2]].data = Nullable(Sequence("C"))
-    > tree.nodes[leaves[3]].data = Nullable(Sequence("A"))
-    > tree.nodes[leaves[4]].data = Nullable(Sequence("C"))
-    > tree.nodes[leaves[5]].data = Nullable(Sequence("C"))
+    > setdata!(tree.nodes[leaves[1]], Sequence("T"))
+    > setdata!(tree.nodes[leaves[2]], Sequence("C"))
+    > setdata!(tree.nodes[leaves[3]], Sequence("A"))
+    > setdata!(tree.nodes[leaves[4]], Sequence("C"))
+    > setdata!(tree.nodes[leaves[5]], Sequence("C"))
     >
     > # Parametrize substitution model
     > model = K80([2.])
