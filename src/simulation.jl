@@ -4,7 +4,8 @@ simulate(n::Int64, mod::SubstitutionModel)
 Simulate a sequence of length `n`, using the base frequencies of a specified
 substitution model
 """
-function simulate(n::Int64, mod::SubstitutionModel)
+function simulate(n::Int64,
+                  mod::SubstitutionModel)
   return Sequence(convert(Array{Bool, 2}, rand(Multinomial(1, mod.π), n)))
 end
 
@@ -37,8 +38,7 @@ function simulate!{B<:Any}(tree::Tree{Sequence, B},
     branch_length = tree.branches[tree.nodes[i].in[1]].length
     seq = getdata(tree.nodes[source])
     for j in 1:length(seq)
-      site_rate = site_rates[j]
-      p = P(mod, branch_length * site_rate)
+      p = P(mod, branch_length * site_rates[j])
       seq.nucleotides[:,j] = rand(Multinomial(1, (seq.nucleotides[:,j]' * p)[:]))
     end
     setdata!(tree.nodes[i], seq)

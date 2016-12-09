@@ -1,4 +1,4 @@
-immutable Sequence
+type Sequence
   nucleotides::Array{Bool, 2}
 
   function Sequence(nucleotides::Array{Bool, 2})
