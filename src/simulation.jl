@@ -5,9 +5,6 @@ Simulate a sequence of length `n`, using the base frequencies of a specified
 substitution model
 """
 function simulate(n::Int64, mod::SubstitutionModel)
-  if length(π) != 4
-    error("π must be of length 4")
-  end
   return Sequence(convert(Array{Bool, 2}, rand(Multinomial(1, mod.π), n)))
 end
 
