@@ -2,7 +2,6 @@ type PhyloTrace
   substitutionmodel::Vector{SubstitutionModel}
   tree::Vector{Tree}
   logposterior::Vector{Float64}
-  acceptance::Vector{Bool}
 end
 
 
@@ -10,7 +9,6 @@ type PhyloIteration
   substitutionmodel::SubstitutionModel
   tree::Tree
   logposterior::Float64
-  acceptance::Bool
 end
 
 
@@ -21,7 +19,6 @@ function push!(trace::PhyloTrace, iteration::PhyloIteration)
   push!(trace.substitutionmodel, iteration.substitutionmodel)
   push!(trace.tree, iteration.tree)
   push!(trace.logposterior, iteration.logposterior)
-  push!(trace.acceptance, iteration.acceptance)
 end
 
 
@@ -29,7 +26,6 @@ function append!(trace1::PhyloTrace, trace2::PhyloTrace)
   append!(trace1.substitutionmodel, trace2.substitutionmodel)
   append!(trace1.tree, trace2.tree)
   append!(trace1.logposterior, trace2.logposterior)
-  append!(trace1.acceptance, trace2.acceptance)
 end
 
 
@@ -39,7 +35,7 @@ end
 
 
 function show(io::IO, object::PhyloTrace)
-  print(io, "PhyloTrace object (MCMC iterations: $(length(object)), acceptance rate: $(trunc(sum(object.acceptance)*100/length(object), 4))%)")
+  print(io, "PhyloTrace object (MCMC iterations: $(length(object)))")
 end
 
 
@@ -57,7 +53,7 @@ function transition_kernel_variance(x::SubstitutionModelPrior)
   for i in x.Θ
     push!(diagonal, var(i)*2.38^2)
   end
-  return diagonal
+  return diagm(diagonal)
 end
 
 
@@ -66,13 +62,9 @@ Adapt the variance-covariance matrix for a MvNormal transition kernel for
 `SubstitutionModel`
 """
 function transition_kernel_variance(x::Vector{SubstitutionModel})
-  covariance_matrix = cov([x[i].Θ for i = 1:length(x)])
+  covariance_matrix = cov([x[i].Θ[j] for i = 1:length(x) for j = 1:length(x[1].Θ)])
   kernel_var = covariance_matrix * (2.38^2) / size(covariance_matrix, 1)
-  if size(kernel_var, 1) > 1
-    return diag(kernel_var)
-  else
-    return kernel_var
-  end
+  return kernel_var
 end
 
 
@@ -84,13 +76,9 @@ variance as the variance-covariance matrix
 """
 function propose(currentstate::SubstitutionModel,
                  substitutionmodel_prior::SubstitutionModelPrior,
-                 variance::Vector{Float64})
-  newstate = currentstate
-  for i in 1:length(substitutionmodel_prior.Θ)
-    lb = support(substitutionmodel_prior.Θ[i]).lb
-    ub = support(substitutionmodel_prior.Θ[i]).ub
-    newstate.Θ[i] = rand(Truncated(Normal(currentstate.Θ[i], variance[i]), lb, ub))
-  end
+                 variance::Array{Float64})
+  newstate = copy(currentstate)
+  newstate.Θ = rand(MvNormal(newstate.Θ, variance))
   if length(fieldnames(substitutionmodel_prior)) == 2
     newstate.π = rand(Dirichlet([5; 5; 5; 5]))
   end

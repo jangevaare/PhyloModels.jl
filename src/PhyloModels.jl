@@ -13,6 +13,7 @@ import
   Base.length,
   Base.getindex,
   Base.rand,
+  Base.copy,
   StatsBase.loglikelihood
 
 export

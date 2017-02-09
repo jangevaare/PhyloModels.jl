@@ -101,3 +101,8 @@ function logprior(prior::JC69Prior, model::JC69)
   lprior += sum([loglikelihood(prior.Θ[i], [model.Θ[i]]) for i=1:length(model.Θ)])
   return lprior
 end
+
+
+function copy(model::JC69)
+  return JC69(copy(model.Θ))
+end

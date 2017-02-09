@@ -159,3 +159,8 @@ function logprior(prior::F84Prior, model::F84)
   lprior += loglikelihood(prior.π, [model.π])
   return lprior
 end
+
+
+function copy(model::F84)
+  return F84(copy(model.Θ), copy(model.π))
+end

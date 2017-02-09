@@ -158,3 +158,8 @@ function logprior(prior::TN93Prior, model::TN93)
   lprior += loglikelihood(prior.π, [model.π])
   return lprior
 end
+
+
+function copy(model::TN93)
+  return TN93(copy(model.Θ), copy(model.π))
+end

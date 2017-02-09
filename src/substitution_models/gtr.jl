@@ -103,3 +103,8 @@ function logprior(prior::GTRPrior, model::GTR)
   lprior += loglikelihood(prior.π, [model.π])
   return lprior
 end
+
+
+function copy(model::GTR)
+  return GTR(copy(model.Θ), copy(model.π))
+end

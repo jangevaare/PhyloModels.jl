@@ -155,3 +155,8 @@ function logprior(prior::HKY85Prior, model::HKY85)
   lprior += loglikelihood(prior.π, [model.π])
   return lprior
 end
+
+
+function copy(model::HKY85)
+  return HKY85(copy(model.Θ), copy(model.π))
+end

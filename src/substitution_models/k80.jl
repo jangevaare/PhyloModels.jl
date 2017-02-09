@@ -99,3 +99,8 @@ function logprior(prior::K80Prior, model::K80)
   lprior += sum([loglikelihood(prior.Θ[i], [model.Θ[i]]) for i=1:length(model.Θ)])
   return lprior
 end
+
+
+function copy(model::K80)
+  return K80(copy(K80.Θ))
+end
