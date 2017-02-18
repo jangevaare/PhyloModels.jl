@@ -46,19 +46,19 @@ f = TN93([1., 2., 3.], πf)
 @test maximum(abs(expm(Q(f) * tf) .- P(f, tf))) < 1e-14
 @test rand(Multinomial(1, f.π))' * P(f, Inf) == f.π'
 
-
 # 2.0 Simulation
-g = Tree{Sequence, Void}()
+g = Tree()
 addnode!(g)
 branch!(g, 1, 10.0)
 branch!(g, 1, 5.0)
 branch!(g, 2, 20.0)
 
 model = JC69([1.0e-5])
-g.nodes[1].data = Nullable(Sequence(convert(Array{Bool, 2}, rand(Multinomial(1, model.π), 1000))))
-simulate!(g, JC69([1.0e-5]), rand(Gamma(1.), 1000))
-for i = 1:length(g.nodes)
-  @test length(getdata(g.nodes[i])) == 1000
+node_data = Dict{Int64, Sequence}()
+node_data[1] = simulate(1000, model)
+simulate!(node_data, g, JC69([1.0e-5]), rand(Gamma(1.), 1000))
+for i = 1:length(node_data)
+  @test length(node_data[i]) == 1000
 end
 
 # 3.0 Inference
@@ -68,7 +68,7 @@ end
 # Molecular Evolution: A Statistical Approach, Ziheng Yang
 
 # Build tree
-tree = Tree{Sequence, Void}()
+tree = Tree()
 addnodes!(tree, 9)
 addbranch!(tree, 9, 6, 0.1)
 addbranch!(tree, 9, 8, 0.1)
@@ -80,15 +80,15 @@ addbranch!(tree, 8, 4, 0.2)
 addbranch!(tree, 8, 5, 0.2)
 
 # Set state of leaf nodes
-leaves = findleaves(tree)
-setdata!(tree.nodes[leaves[1]], Sequence("T"))
-setdata!(tree.nodes[leaves[2]], Sequence("C"))
-setdata!(tree.nodes[leaves[3]], Sequence("A"))
-setdata!(tree.nodes[leaves[4]], Sequence("C"))
-setdata!(tree.nodes[leaves[5]], Sequence("C"))
+node_data = Dict{Int64, Sequence}()
+node_data[1] = Sequence("T")
+node_data[2] = Sequence("C")
+node_data[3] = Sequence("A")
+node_data[4] = Sequence("C")
+node_data[5] = Sequence("C")
 
 # Parametrize substitution model
 model = K80([2.])
 
 # Calculate log likelihood
-@test loglikelihood(tree, model) == -7.5814075725577
+@test loglikelihood(tree, model, node_data) == -7.5814075725577

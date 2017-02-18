@@ -1,35 +1,45 @@
 """
-loglikelihood{B<:Any}(tree::Tree{Sequence, B},
-                      mod::SubstitutionModel)
+loglikelihood(tree::Tree,
+              mod::SubstitutionModel,
+              node_data::Dict{Int64, Sequence})
 
 Calculates the log likelihood of a tree with sequences observed at all leaves
 """
-function loglikelihood{B<:Any}(tree::Tree{Sequence, B},
-                               mod::SubstitutionModel)
-  seq_length = length(getdata(tree.nodes[findleaves(tree)[1]]))
+function loglikelihood(tree::Tree,
+                       mod::SubstitutionModel,
+                       node_data::Dict{Int64, Sequence})
+  # Error checking
+  if !all(map(x -> x in keys(node_data), findleaves(tree)))
+    error("Some leaves are missing sequence data")
+  end
+  # Create a Dict to store likelihood calculations
+  calculations = Dict{Int64, Array{Float64, 2}}()
+  # Find node visit order for postorder traversal
   visit_order = postorder(tree)
-  seq_array = fill(1., (4, seq_length, length(tree.nodes)))
   for i in visit_order
-    if isleaf(tree.nodes[i])
-      if length(getdata(tree.nodes[i])) != seq_length
-        error("Unequal sequence lengths")
-      end
-      seq_array[:, :, i] = seq_array[:, :, i] .* getdata(tree.nodes[i]).nucleotides
+    if isleaf(tree, i)
+      calculations[i] = node_data[i].nucleotides
     else
       branches = tree.nodes[i].out
       for j in branches
         branch_length = tree.branches[j].length
         child_node = tree.branches[j].target
+        # Calculate p matrix for specific branch length
         p = P(mod, branch_length)
-        @simd for k in 1:seq_length
-          seq_array[:, k, i] = seq_array[:, k, i] .* (seq_array[:, k, child_node]' * p)[:]
+        # Initialize likelihood calculation array for node if not already done
+        if !haskey(calculations, i)
+          calculations[i] = fill(1., size(calculations[child_node]))
+        end
+        # Perform likelihood calculation for each nucleotide
+        @simd for k in 1:size(calculations[i], 2)
+          calculations[i][:,k] .*= (calculations[child_node][:, k]' * p)[:]
         end
       end
     end
   end
   ll = 0.
-  @simd for i in 1:seq_length
-    ll += log(sum(seq_array[:, i, visit_order[end]] .* mod.π))
+  @simd for i in 1:size(calculations[visit_order[end]], 2)
+    ll += log(sum(calculations[visit_order[end]][:, i] .* mod.π))
   end
   return ll
 end

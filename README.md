@@ -15,7 +15,7 @@ The log likelihood of phylogenetic trees can be calculated when genetic sequence
     > using PhyloTrees, PhyloModels
     >
     > # Build tree
-    > tree = Tree{Sequence, Void}()
+    > tree = Tree()
     > addnodes!(tree, 9)
     > addbranch!(tree, 9, 6, 0.1)
     > addbranch!(tree, 9, 8, 0.1)
@@ -29,12 +29,12 @@ The log likelihood of phylogenetic trees can be calculated when genetic sequence
     Phylogenetic tree with 9 nodes and 8 branches
 
     > # Set state of leaf nodes
-    > leaves = findleaves(tree)
-    > setdata!(tree.nodes[leaves[1]], Sequence("T"))
-    > setdata!(tree.nodes[leaves[2]], Sequence("C"))
-    > setdata!(tree.nodes[leaves[3]], Sequence("A"))
-    > setdata!(tree.nodes[leaves[4]], Sequence("C"))
-    > setdata!(tree.nodes[leaves[5]], Sequence("C"))
+    > node_data = Dict{Int64, Sequence}()
+    > node_data[1] = Sequence("T")
+    > node_data[2] = Sequence("C")
+    > node_data[3] = Sequence("A")
+    > node_data[4] = Sequence("C")
+    > node_data[5] = Sequence("C")
     >
     > # Parametrize substitution model
     > model = K80([2.])
@@ -42,7 +42,7 @@ The log likelihood of phylogenetic trees can be calculated when genetic sequence
     Kimura 1980 substitution model
 
     > # Calculate log likelihood
-    > loglikelihood(tree, model)
+    > loglikelihood(tree, model, node_data)
 
     -7.5814075725577
 
