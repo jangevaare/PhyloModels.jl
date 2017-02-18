@@ -45,99 +45,14 @@ end
 
 
 """
-Generate the variance-covariance matrix for a MvNormal transition kernel based
-upon prior distributions
-"""
-function transition_kernel_variance(x::SubstitutionModelPrior)
-  diagonal = Float64[]
-  for i in x.Θ
-    push!(diagonal, var(i)*2.38^2)
-  end
-  return diagm(diagonal)
-end
-
-
-"""
-Adapt the variance-covariance matrix for a MvNormal transition kernel for
-`SubstitutionModel`
-"""
-function transition_kernel_variance(x::Vector{SubstitutionModel})
-  covariance_matrix = cov([x[i].Θ[j] for i = 1:length(x) for j = 1:length(x[1].Θ)])
-  kernel_var = covariance_matrix * (2.38^2) / size(covariance_matrix, 1)
-  return kernel_var
-end
-
-
-"""
 Generate a `SubstitutionModel` proposal using the multivariate normal
 distribution as the transition kernel, with a previous set of
 `SubstitutionModel` parameters as the mean vector and a transition kernel
 variance as the variance-covariance matrix
 """
 function propose(currentstate::SubstitutionModel,
-                 substitutionmodel_prior::SubstitutionModelPrior,
                  variance::Array{Float64})
   newstate = copy(currentstate)
   newstate.Θ = rand(MvNormal(newstate.Θ, variance))
-  if length(fieldnames(substitutionmodel_prior)) == 2
-    newstate.π = rand(Dirichlet([5; 5; 5; 5]))
-  end
   return newstate
-end
-
-
-"""
-Subtree-Prune-Regraft operator
-"""
-function spr(tree::Tree)
-  subtreeroot = sample(findnonroots(tree))
-  subtreenodes = [subtreeroot; descendantnodes(tree, subtreeroot)]
-  sampleorder = sample(1:length(tree.nodes), length(tree.nodes))
-  for i in sampleorder
-    if !(i in subtreenodes)
-      reattachmentnode = i
-      break
-    end
-  end
-  return changesource!(tree, tree.nodes[subtreeroot].in, reattachmentnode)
-end
-
-
-"""
-Calculates the log likelihood of a tree with sequences observed at all leaves
-* does not assume equal site rates
-* not yet ready for production use
-"""
-function loglikelihood(seq::Vector{Sequence},
-                       tree::Tree,
-                       mod::SubstitutionModel,
-                       site_rates::Vector{Float64})
-  seq_length = length(site_rates)
-  leaves = findleaves(tree)
-  if length(leaves) !== length(seq)
-    error("Number of leaves and number of observed sequences do not match")
-  end
-  visit_order = postorder(tree)
-  seq_array = fill(1., (4, seq_length, length(tree.nodes)))
-  leafindex = 0
-  for i in visit_order
-    if isleaf(tree.nodes[i])
-      leafindex += 1
-      seq_array[:, :, i] = seq_array[:, :, i] .* seq[leafindex].nucleotides
-    else
-      branches = tree.nodes[i].out
-      for j in branches
-        branch_length = get(tree.branches[j].length)
-        child_node = tree.branches[j].target
-        @simd for k in 1:seq_length
-          seq_array[:, k, i] = seq_array[:, k, i] .* (seq_array[:, k, child_node]' * P(mod, branch_length * site_rates[k]))[:]
-        end
-      end
-    end
-  end
-  ll = 0.
-  @simd for i in 1:seq_length
-    ll += log(sum(seq_array[:, i, visit_order[end]] .* mod.π))
-  end
-  return ll
 end

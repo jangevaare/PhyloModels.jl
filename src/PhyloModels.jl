@@ -40,7 +40,6 @@ export
   Q,
   P,
   logprior,
-  propose,
 
   # Simulation
   simulate,
@@ -50,10 +49,9 @@ export
   loglikelihood,
 
   # Experimental features
-  spr,
   PhyloTrace,
   PhyloIteration,
-  transition_kernel_variance
+  propose
 
   # Package files
   include("sequences.jl")
