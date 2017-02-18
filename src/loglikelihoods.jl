@@ -11,7 +11,10 @@ function loglikelihood(tree::Tree,
   # Error checking
   if !all(map(x -> x in keys(node_data), findleaves(tree)))
     error("Some leaves are missing sequence data")
-  end
+  elseif length(findroots(tree)) > 1
+    error("More than one root detected")
+  elseif condition
+
   # Create a Dict to store likelihood calculations
   calculations = Dict{Int64, Array{Float64, 2}}()
   # Find node visit order for postorder traversal
