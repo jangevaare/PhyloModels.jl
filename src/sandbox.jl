@@ -45,6 +45,9 @@ end
 
 
 """
+propose(currentstate::SubstitutionModel,
+        variance::Array{Float64})
+
 Generate a `SubstitutionModel` proposal using the multivariate normal
 distribution as the transition kernel, with a previous set of
 `SubstitutionModel` parameters as the mean vector and a transition kernel

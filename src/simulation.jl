@@ -1,5 +1,6 @@
 """
-simulate(n::Int64, mod::SubstitutionModel)
+simulate(n::Int64,
+         mod::SubstitutionModel)
 
 Simulate a sequence of length `n`, using the base frequencies of a specified
 substitution model
@@ -12,10 +13,10 @@ end
 
 
 """
-simulate(node_data::Dict{Int64, Sequence},
-         tree::Tree,
-         mod::SubstitutionModel,
-         site_rates::Vector{Float64})
+simulate!(node_data::Dict{Int64, Sequence},
+          tree::Tree,
+          mod::SubstitutionModel,
+          site_rates::Vector{Float64})
 
 Simulate sequences for all nodes in a phylogenetic `tree` following a specified
 substitution model
