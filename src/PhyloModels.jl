@@ -57,7 +57,6 @@ export
 
   # Package files
   include("sequences.jl")
-
   include("substitution_models/abstract.jl")
   include("substitution_models/jc69.jl")
   include("substitution_models/k80.jl")
@@ -66,11 +65,8 @@ export
   include("substitution_models/hky85.jl")
   include("substitution_models/tn93.jl")
   include("substitution_models/gtr.jl")
-
   include("simulation.jl")
-
   include("loglikelihoods.jl")
-
   include("sandbox.jl")
 
 end # module

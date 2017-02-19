@@ -13,7 +13,7 @@ function loglikelihood(tree::Tree,
     error("Some leaves are missing sequence data")
   elseif length(findroots(tree)) > 1
     error("More than one root detected")
-  elseif condition
+  end
 
   # Create a Dict to store likelihood calculations
   calculations = Dict{Int64, Array{Float64, 2}}()
