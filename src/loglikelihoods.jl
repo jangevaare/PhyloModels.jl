@@ -27,22 +27,14 @@ function loglikelihood(tree::Tree,
       for j in branches
         branch_length = tree.branches[j].length
         child_node = tree.branches[j].target
-        # Calculate p matrix for specific branch length
         p = P(mod, branch_length)
-        # Initialize likelihood calculation array for node if not already done
         if !haskey(calculations, i)
-          calculations[i] = fill(1., size(calculations[child_node]))
-        end
-        # Perform likelihood calculation for each nucleotide
-        @simd for k in 1:size(calculations[i], 2)
-          calculations[i][:,k] .*= (calculations[child_node][:, k]' * p)[:]
+          calculations[i] = p * calculations[child_node]
+        else
+          calculations[i] .*= p * calculations[child_node]
         end
       end
     end
   end
-  ll = 0.
-  @simd for i in 1:size(calculations[visit_order[end]], 2)
-    ll += log(sum(calculations[visit_order[end]][:, i] .* mod.π))
-  end
-  return ll
+  return sum(log(mod.π' * calculations[visit_order[end]]))
 end
