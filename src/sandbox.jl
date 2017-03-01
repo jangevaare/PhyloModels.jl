@@ -29,6 +29,14 @@ function append!(trace1::PhyloTrace, trace2::PhyloTrace)
 end
 
 
+function deleteat!(trace::PhyloTrace, inds)
+  deleteat!(trace.substitutionmodel, inds)
+  deleteat!(trace.tree, inds)
+  deleteat!(trace.logposterior, inds)
+  return trace
+end
+
+
 function length(x::PhyloTrace)
   return length(x.substitutionmodel)
 end

@@ -16,6 +16,7 @@ import
   Base.getindex,
   Base.rand,
   Base.copy,
+  Base.deleteat!,
   StatsBase.loglikelihood
 
 export
