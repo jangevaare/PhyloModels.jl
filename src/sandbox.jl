@@ -37,8 +37,15 @@ function deleteat!(trace::PhyloTrace, inds)
 end
 
 
-function length(x::PhyloTrace)
-  return length(x.substitutionmodel)
+function length(trace::PhyloTrace)
+  return length(trace.substitutionmodel)
+end
+
+
+function getindex(trace::PhyloTrace, i)
+  return PhyloTrace(trace.substitutionmodel[i],
+                    trace.tree[i],
+                    trace.logposterior[i])
 end
 
 
