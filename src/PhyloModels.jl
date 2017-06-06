@@ -49,12 +49,7 @@ export
   simulate!,
 
   # Loglikelihoods
-  loglikelihood,
-
-  # Experimental features
-  PhyloTrace,
-  PhyloIteration,
-  propose
+  loglikelihood
 
   # Package files
   include("sequences.jl")
@@ -68,6 +63,5 @@ export
   include("substitution_models/gtr.jl")
   include("simulation.jl")
   include("loglikelihoods.jl")
-  include("sandbox.jl")
 
 end # module
