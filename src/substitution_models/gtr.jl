@@ -57,10 +57,10 @@ function Q(gtr::GTR)
   Q_AA = -((b * π_T) + (d * π_C) + (f * π_G))
   Q_AG = f * π_G
 
-  Q_AT = c * π_T
-  Q_AC = e * π_C
-  Q_AA = f * π_A
-  Q_AG = -((c * π_T) + (e * π_C) + (f * π_A))
+  Q_GT = c * π_T
+  Q_GC = e * π_C
+  Q_GA = f * π_A
+  Q_GG = -((c * π_T) + (e * π_C) + (f * π_A))
 
   return [[Q_TT Q_TC Q_TA Q_TG]
           [Q_CT Q_CC Q_CA Q_CG]
