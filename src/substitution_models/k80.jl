@@ -16,10 +16,7 @@ type K80 <: SubstitutionModel
     elseif !(1 <= length(Θ) <= 2)
       error("Θ is not a valid length for a K80 model")
     end
-    π = [0.25
-         0.25
-         0.25
-         0.25]
+    π = [0.25, 0.25, 0.25, 0.25]
     if length(Θ) == 1
       new(Θ, π, true)
     else

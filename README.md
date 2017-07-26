@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jangevaare/PhyloModels.jl.svg?branch=master)](https://travis-ci.org/jangevaare/PhyloModels.jl)
 
-PhyloModels.jl is a package for performing phylogenetic simulation and inference in Julia.
+PhyloModels.jl is a package for performing phylogenetic simulation and inference in Julia. This package is no longer being developed or maintained in favour of [BioJulia/SubstitutionModels.jl](https://github.com/BioJulia/SubstitutionModels.jl) and related bioinformatics packages in the [BioJulia](https://github.com/BioJulia) Ecosystem.
 
 
 ### Simulation
@@ -45,8 +45,3 @@ The log likelihood of phylogenetic trees can be calculated when genetic sequence
     > loglikelihood(tree, model, node_data)
 
     -7.5814075725577
-
-### Development
-PhyloModels.jl intends to be a full suite of tools for phylogenetic simulation and inference in Julia. Future versions will include
-* Further support for heterogenous site rate models
-* Tree operators and MCMC methods

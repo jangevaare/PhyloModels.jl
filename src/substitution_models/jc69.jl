@@ -16,12 +16,7 @@ type JC69 <: SubstitutionModel
     elseif any(Θ .<= 0.)
       error("All elements of Θ must be positive")
     end
-
-    π = [0.25
-         0.25
-         0.25
-         0.25]
-
+    π = [0.25, 0.25, 0.25, 0.25]
     if length(Θ) == 0
       new(Θ, π, true)
     else

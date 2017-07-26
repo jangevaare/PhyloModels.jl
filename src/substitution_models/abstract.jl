@@ -1,3 +1,3 @@
-abstract type SubstitutionModel end
+abstract SubstitutionModel
 
-abstract type SubstitutionModelPrior end
+abstract SubstitutionModelPrior

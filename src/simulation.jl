@@ -38,7 +38,7 @@ function simulate!(node_data::Dict{Int64, Sequence},
     source = tree.branches[tree.nodes[i].in[1]].source
     source_seq = node_data[source]
     branch_length = tree.branches[tree.nodes[i].in[1]].length
-    seq = [findfirst(rand(Multinomial(1, (source_seq.nucleotides[:, j]' * P(mod, branch_length * site_rates[j]))[:]))) for j = 1:length(source_seq)]
+    seq = [findfirst(rand(Multinomial(1, (P(mod, branch_length * site_rates[j]) * source_seq.nucleotides[:, j])[:]))) for j = 1:length(source_seq)]
     node_data[i] = Sequence(seq)
   end
   return node_data

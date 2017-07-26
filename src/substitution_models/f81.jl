@@ -62,8 +62,8 @@ function P(f81::F81, t::Float64)
     error("Time must be positive")
   end
   if f81.relativerate
-    α_1 = f81.Θ[1]
-    α_2 = f81.Θ[1]
+    α_1 = 1.
+    α_2 = 1.
     β = 1.
   else
     α_1 = f81.Θ[1]
