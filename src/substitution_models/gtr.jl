@@ -83,7 +83,7 @@ function P(gtr::GTR, t::Array{Float64})
     error("t must be positive")
   end
   eig_vals, eig_vecs = eig(Q(mod))
-  return [expm(eig_vecs * (diagm(eig_vals)*i) * eig_vecs') for i in t]
+  return [eig_vecs * expm(diagm(eig_vals)*i) * eig_vecs' for i in t]
 end
 
 
