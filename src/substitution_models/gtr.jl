@@ -77,6 +77,16 @@ function P(gtr::GTR, t::Float64)
 end
 
 
+"Generate an array of P matrices for a specified array of times"
+function P(gtr::GTR, t::Array{Float64})
+  if any(t .< 0.0)
+    error("t must be positive")
+  end
+  eig_vals, eig_vecs = eig(Q(mod))
+  return [expm(eig_vecs * (diagm(eig_vals)*i) * eig_vecs') for i in t]
+end
+
+
 type GTRPrior <: SubstitutionModelPrior
   Θ::Vector{UnivariateDistribution}
   π::Dirichlet
