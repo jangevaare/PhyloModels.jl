@@ -36,5 +36,5 @@ function loglikelihood(tree::Tree,
       end
     end
   end
-  return sum(log(mod.π' * calculations[visit_order[end]]))
+  return sum(log.(mod.π' * calculations[visit_order[end]]))
 end

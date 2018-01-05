@@ -9,7 +9,7 @@ using Base.Test
 @testset "JC69" begin
 ta = rand(Gamma(10.))
 a = JC69([1.])
-@test maximum(abs(expm(Q(a) * ta) .- P(a, ta))) < 1e-14
+@test maximum(abs.(expm(Q(a) * ta) .- P(a, ta))) < 1e-14
 @test rand(Multinomial(1, a.π))' * P(a, Inf) == a.π'
 end
 
@@ -17,7 +17,7 @@ end
 @testset "K80" begin
 tb = rand(Gamma(10.))
 b = K80([1., 2.])
-@test maximum(abs(expm(Q(b) * tb) .- P(b, tb))) < 1e-14
+@test maximum(abs.(expm(Q(b) * tb) .- P(b, tb))) < 1e-14
 @test rand(Multinomial(1, b.π))' * P(b, Inf) == b.π'
 end
 
@@ -26,7 +26,7 @@ end
 πc = [0.3, 0.3, 0.2, 0.2]
 tc = rand(Gamma(10.))
 c = F81([1.], πc)
-@test maximum(abs(expm(Q(c) * tc) .- P(c, tc))) < 1e-14
+@test maximum(abs.(expm(Q(c) * tc) .- P(c, tc))) < 1e-14
 @test rand(Multinomial(1, c.π))' * P(c, Inf) == c.π'
 end
 
@@ -35,7 +35,7 @@ end
 πd = [0.3, 0.3, 0.2, 0.2]
 td = rand(Gamma(10.))
 d = F84([1., 2.], πd)
-@test maximum(abs(expm(Q(d) * td) .- P(d, td))) < 1e-14
+@test maximum(abs.(expm(Q(d) * td) .- P(d, td))) < 1e-14
 @test rand(Multinomial(1, d.π))' * P(d, Inf) == d.π'
 end
 
@@ -44,7 +44,7 @@ end
 πe = [0.3, 0.3, 0.2, 0.2]
 te = rand(Gamma(10.))
 e = HKY85([1., 2.], πe)
-@test maximum(abs(expm(Q(e) * te) .- P(e, te))) < 1e-14
+@test maximum(abs.(expm(Q(e) * te) .- P(e, te))) < 1e-14
 @test rand(Multinomial(1, e.π))' * P(e, Inf) == e.π'
 end
 
@@ -53,7 +53,7 @@ end
 πf = [0.3, 0.3, 0.2, 0.2]
 tf = rand(Gamma(10.))
 f = TN93([1., 2., 3.], πf)
-@test maximum(abs(expm(Q(f) * tf) .- P(f, tf))) < 1e-14
+@test maximum(abs.(expm(Q(f) * tf) .- P(f, tf))) < 1e-14
 @test rand(Multinomial(1, f.π))' * P(f, Inf) == f.π'
 end
 end
