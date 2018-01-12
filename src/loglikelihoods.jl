@@ -1,13 +1,15 @@
 """
 loglikelihood(tree::Tree,
               mod::SubstitutionModel,
-              node_data::Dict{Int64, Sequence})
+              node_data::Dict{Int64, Sequence},
+              output_calculations::Bool=false)
 
 Calculates the log likelihood of a tree with sequences observed at all leaves
 """
 function loglikelihood(tree::Tree,
                        mod::SubstitutionModel,
-                       node_data::Dict{Int64, Sequence})
+                       node_data::Dict{Int64, Sequence},
+                       output_calculations::Bool=false)
   # Error checking
   if !all(map(x -> x in keys(node_data), findleaves(tree)))
     error("Some leaves are missing sequence data")
@@ -36,5 +38,9 @@ function loglikelihood(tree::Tree,
       end
     end
   end
-  return sum(log.(mod.π' * calculations[visit_order[end]]))
+  if output_calculations
+    return sum(log.(mod.π' * calculations[visit_order[end]])), calculations, visit_order
+  else
+    return sum(log.(mod.π' * calculations[visit_order[end]]))
+  end
 end
