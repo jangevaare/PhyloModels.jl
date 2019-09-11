@@ -1,5 +1,5 @@
 using Test,
-      Felsenstein
+      PhyloModels
 
 # An example from "Molecular Evolution: A Statistical Approach" by Ziheng Yang
 

@@ -4,6 +4,8 @@ module PhyloModels
         SubstitutionModels,
         GeneticBitArrays
 
+  import SubstitutionModels._π
+
   # Re-export all of PhyloTrees, SubstitutionModels, and GeneticBitArrays
   for name in names(PhyloTrees)
     @eval export $(name)
@@ -18,6 +20,7 @@ module PhyloModels
   end
 
   include("core.jl")
+  include("loglikelihood.jl")
 
   export NodeDNA, loglikelihood
 

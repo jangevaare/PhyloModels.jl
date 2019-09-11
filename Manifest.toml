@@ -26,7 +26,7 @@ deps = ["Random", "Serialization", "Sockets"]
 uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[GeneticBitArrays]]
-git-tree-sha1 = "7ab6250ead1ac721594e792f2d0a8c471f98a3d9"
+git-tree-sha1 = "9a8514f3c5945611a062f6df94614964e12a6a81"
 repo-rev = "master"
 repo-url = "https://github.com/jangevaare/GeneticBitArrays.jl"
 uuid = "5d6f8c34-7f74-4dab-a49b-48b3414fbfce"
