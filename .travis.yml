@@ -4,11 +4,23 @@ os:
   - linux
   - osx
 julia:
-  - 0.5
+  - 1.0
+  - 1.1
+  - 1.2
   - nightly
 notifications:
-  email: false
+  email: true
 matrix:
   allow_failures:
     - julia: nightly
   fast_finish: true
+script:
+    - julia -e 'using Pkg;
+                if VERSION >= v"1.1.0";
+                  Registry.add(Registry.RegistrySpec(url = "https://github.com/JuliaRegistries/General.git"));
+                  Registry.add(Registry.RegistrySpec(url = "https://github.com/BioJulia/BioJuliaRegistry.git"));
+                  Pkg.build(verbose = true);
+                else;
+                  Pkg.build();
+                end;
+                Pkg.test(coverage=true)'

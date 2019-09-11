@@ -1,67 +1,31 @@
-__precompile__()
-
 module PhyloModels
 
-# Dependencies
-using
-  PhyloTrees,
-  Distributions
+  using PhyloTrees,
+        SubstitutionModels,
+        GeneticBitArrays
 
-# Methods expanded
-import
-  Base.show,
-  Base.push!,
-  Base.append!,
-  Base.length,
-  Base.getindex,
-  Base.rand,
-  Base.copy,
-  Base.deleteat!,
-  StatsBase.loglikelihood
+  import SubstitutionModels._π
+  import Base.rand
 
-export
-  # Sequences
-  Sequence,
+  # Re-export all of PhyloTrees, SubstitutionModels, and GeneticBitArrays
+  for name in names(PhyloTrees)
+    @eval export $(name)
+  end
 
-  # Substitution Models
-  SubstitutionModel,
-  SubstitutionModelPrior,
-  JC69,
-  K80,
-  F81,
-  F84,
-  HKY85,
-  TN93,
-  GTR,
-  JC69Prior,
-  K80Prior,
-  F81Prior,
-  F84Prior,
-  HKY85Prior,
-  TN93Prior,
-  GTRPrior,
-  Q,
-  P,
-  logprior,
+  for name in names(SubstitutionModels)
+    @eval export $(name)
+  end
 
-  # Simulation
-  simulate,
-  simulate!,
+  for name in names(GeneticBitArrays)
+    @eval export $(name)
+  end
 
-  # Loglikelihoods
-  loglikelihood
+  const NodeDNA = Dict{Int64, DNASeq}
+  const NodeRNA = Dict{Int64, RNASeq}
 
-  # Package files
-  include("sequences.jl")
-  include("substitution_models/abstract.jl")
-  include("substitution_models/jc69.jl")
-  include("substitution_models/k80.jl")
-  include("substitution_models/f81.jl")
-  include("substitution_models/f84.jl")
-  include("substitution_models/hky85.jl")
-  include("substitution_models/tn93.jl")
-  include("substitution_models/gtr.jl")
-  include("simulation.jl")
-  include("loglikelihoods.jl")
+  include("loglikelihood.jl")
+  include("simulate.jl")
+
+  export NodeDNA, NodeRNA, siimulate!, simulate, rand, loglikelihood
 
 end # module
