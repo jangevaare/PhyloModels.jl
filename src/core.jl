@@ -1,15 +1,9 @@
-"""
-loglikelihood(tree::Tree,
-              mod::SubstitutionModel,
-              node_data::Dict{Int64, Sequence},
-              output_calculations::Bool=false)
+const NodeDNA = Dict{Int64, DNABitArray}
 
-Calculates the log likelihood of a tree with sequences observed at all leaves
-"""
 function loglikelihood(tree::Tree,
-                       mod::SubstitutionModel,
-                       node_data::Dict{Int64, Sequence},
-                       output_calculations::Bool=false)
+                       mod::T,
+                       node_data::NodeDNA;
+                       output_calculations::Bool=false) where T <: NASM
   # Error checking
   if !all(map(x -> x in keys(node_data), findleaves(tree)))
     error("Some leaves are missing sequence data")

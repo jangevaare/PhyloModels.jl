@@ -1,67 +1,24 @@
-__precompile__()
-
 module PhyloModels
 
-# Dependencies
-using
-  PhyloTrees,
-  Distributions
+  using PhyloTrees,
+        SubstitutionModels,
+        GeneticBitArrays
 
-# Methods expanded
-import
-  Base.show,
-  Base.push!,
-  Base.append!,
-  Base.length,
-  Base.getindex,
-  Base.rand,
-  Base.copy,
-  Base.deleteat!,
-  StatsBase.loglikelihood
+  # Re-export all of PhyloTrees, SubstitutionModels, and GeneticBitArrays
+  for name in names(PhyloTrees)
+    @eval export $(name)
+  end
 
-export
-  # Sequences
-  Sequence,
+  for name in names(SubstitutionModels)
+    @eval export $(name)
+  end
 
-  # Substitution Models
-  SubstitutionModel,
-  SubstitutionModelPrior,
-  JC69,
-  K80,
-  F81,
-  F84,
-  HKY85,
-  TN93,
-  GTR,
-  JC69Prior,
-  K80Prior,
-  F81Prior,
-  F84Prior,
-  HKY85Prior,
-  TN93Prior,
-  GTRPrior,
-  Q,
-  P,
-  logprior,
+  for name in names(GeneticBitArrays)
+    @eval export $(name)
+  end
 
-  # Simulation
-  simulate,
-  simulate!,
+  include("core.jl")
 
-  # Loglikelihoods
-  loglikelihood
-
-  # Package files
-  include("sequences.jl")
-  include("substitution_models/abstract.jl")
-  include("substitution_models/jc69.jl")
-  include("substitution_models/k80.jl")
-  include("substitution_models/f81.jl")
-  include("substitution_models/f84.jl")
-  include("substitution_models/hky85.jl")
-  include("substitution_models/tn93.jl")
-  include("substitution_models/gtr.jl")
-  include("simulation.jl")
-  include("loglikelihoods.jl")
+  export NodeDNA, loglikelihood
 
 end # module
