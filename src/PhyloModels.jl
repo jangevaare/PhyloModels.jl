@@ -5,6 +5,7 @@ module PhyloModels
         GeneticBitArrays
 
   import SubstitutionModels._π
+  import Base.rand
 
   # Re-export all of PhyloTrees, SubstitutionModels, and GeneticBitArrays
   for name in names(PhyloTrees)
@@ -19,9 +20,12 @@ module PhyloModels
     @eval export $(name)
   end
 
-  include("core.jl")
-  include("loglikelihood.jl")
+  const NodeDNA = Dict{Int64, DNASeq}
+  const NodeRNA = Dict{Int64, RNASeq}
 
-  export NodeDNA, loglikelihood
+  include("loglikelihood.jl")
+  include("simulate.jl")
+
+  export NodeDNA, NodeRNA, siimulate!, simulate, rand, loglikelihood
 
 end # module
