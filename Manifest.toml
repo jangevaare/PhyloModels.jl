@@ -32,7 +32,7 @@ uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[GeneticBitArrays]]
 deps = ["StatsBase"]
-git-tree-sha1 = "b4d3e4928d1d8c1edccec1cb7238515ba6cbee0e"
+git-tree-sha1 = "54774c74560abeee151b55d9207ef4b55f379a95"
 repo-rev = "master"
 repo-url = "https://github.com/jangevaare/GeneticBitArrays.jl"
 uuid = "5d6f8c34-7f74-4dab-a49b-48b3414fbfce"
