@@ -9,7 +9,7 @@ PhyloModels.jl is a package for performing genetic sequence simulation from spec
 
 ## Installation
 
-Julia 1.0.x, 1.1.x, and 1.2.x are currently supported. The current release can be installed
+The current release can be installed
 from the Julia REPL:
 
 ```julia
