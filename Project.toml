@@ -10,6 +10,7 @@ SubstitutionModels = "8365b1bb-bd83-58ee-a267-f2965fc81c73"
 
 [compat]
 GeneticBitArrays = "≥ 0.2.1"
+SubstitutionModels = "0.4"
 julia = "≥ 1.0.0"
 
 [extras]
