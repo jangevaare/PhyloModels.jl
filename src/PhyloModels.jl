@@ -26,6 +26,6 @@ module PhyloModels
   include("loglikelihood.jl")
   include("simulate.jl")
 
-  export NodeDNA, NodeRNA, siimulate!, simulate, rand, loglikelihood
+  export NodeDNA, NodeRNA, simulate!, simulate, rand, loglikelihood
 
 end # module
