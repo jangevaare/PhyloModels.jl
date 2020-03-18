@@ -25,3 +25,5 @@ script:
                   Pkg.build();
                 end;
                 Pkg.test(coverage=true)'
+after_success:
+  - julia -e 'using Pkg; Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'
