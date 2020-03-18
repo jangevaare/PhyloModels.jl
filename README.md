@@ -10,14 +10,13 @@ PhyloModels.jl is a package for performing genetic sequence simulation from spec
 
 ## Installation
 
-The current release can be installed
-from the Julia REPL:
+The current release can be installed from the Julia REPL with:
 
 ```julia
 pkg> add PhyloModels
 ```
 
-The development version (master branch) can be installed as:
+The development version (master branch) can be installed with:
 
 ```julia
 pkg> add PhyloModels#master
