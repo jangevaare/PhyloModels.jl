@@ -1,7 +1,7 @@
 name = "PhyloModels"
 uuid = "6465ae08-de3a-5dbe-bda8-3920f6a01ab7"
 authors = ["Justin Angevaare <justinangevaare@gmail.com>"]
-version = "0.3.1"
+version = "0.3.2"
 
 [deps]
 GeneticBitArrays = "5d6f8c34-7f74-4dab-a49b-48b3414fbfce"

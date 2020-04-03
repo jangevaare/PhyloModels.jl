@@ -1,7 +1,15 @@
+"""
+Calculate the loglikelihood of a rooted phylogenetic tree. Genetic 
+sequences for each leaf must be provided in a Dict, using Node ID as
+the key
+"""
 function loglikelihood(tree::Tree,
                        mod::T,
-                       node_data::N;
-                       output_calculations::Bool=false) where {T <: NASM, N <: Union{NodeDNA, NodeRNA}}
+                       node_data::ND;
+                       output_calculations::Bool=false) where {
+                       T <: NASM, 
+                       N <: Union{NodeDNA, NodeRNA}, 
+                       ND <: Dict{Int64, N}}
   # Error checking
   if !all(map(x -> x in keys(node_data), findleaves(tree)))
     error("Some leaves are missing sequence data")
