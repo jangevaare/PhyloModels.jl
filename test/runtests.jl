@@ -33,11 +33,11 @@ model = K80(2.0)
 # loglikelihood calculation
 ll = loglikelihood(tree, model, node_data)
 
-@test ll == -7.5814075725577
+@test ll ≈ -7.5814075725577
 
 # Simulation
 node_data = simulate(DNASeq,
                      tree,
                      model,
                      1000)
-@test length(node_data[1]) == 1000 
+@test length(node_data[1]) == 1000
