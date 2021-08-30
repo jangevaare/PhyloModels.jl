@@ -2,7 +2,7 @@
 [![DOI](https://zenodo.org/badge/75206540.svg)](https://zenodo.org/badge/latestdoi/75206540)
 [![Latest Release](https://img.shields.io/github/release/jangevaare/PhyloModels.jl.svg)](https://github.com/jangevaare/PhyloModels.jl/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/jangevaare/PhyloModels.jl/blob/master/LICENSE)
-[![Build Status](https://app.travis-ci.com/jangevaare/PhyloModels.jl.svg?branch=master)](https://app.travis-ci.com/jangevaare/PhyloModels.jl)
+[![CI-stable](https://github.com/jangevaare/PhyloModels.jl/actions/workflows/ci-stable.yml/badge.svg)](https://github.com/jangevaare/PhyloModels.jl/actions/workflows/ci-stable.yml)
 [![codecov.io](http://codecov.io/github/jangevaare/PhyloModels.jl/coverage.svg?branch=master)](http://codecov.io/github/jangevaare/PhyloModels.jl?branch=master)
 
 PhyloModels.jl is a package for performing genetic sequence simulation from specified phylogenetic trees (using [PhyloTrees.jl](https://github.com/jangevaare/PhyloTrees.jl) for phylogenetic tree specification, and [SubstitutionModels.jl](https://github.com/BioJulia/SubstitutionModels.jl) for nucleic acid substitution model specification), and for loglikelihood calculation of phylogenetic trees using Felsenstein's tree pruning algorithm¹.
