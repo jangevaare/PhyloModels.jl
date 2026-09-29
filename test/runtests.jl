@@ -136,3 +136,32 @@ end
   branch!(changed, first(findleaves(changed)), 0.1)
   @test_throws ArgumentError loglikelihood!(w, JC69(), data)
 end
+
+
+@testset "Identical alignment columns" begin
+  for seqtype in (DNASeq, RNASeq)
+    data = Dict(id => seqtype("ACNACN") for id in findleaves(tree))
+    w = LikelihoodWorkspace(tree, data)
+    @test size(w.scratch, 2) == 3
+    @test w.multiplicities == [2, 2, 2]
+    @test loglikelihood!(w, K80(2.0), data) ≈ reference_loglikelihood(tree, K80(2.0), data)
+    ll, matrices, order = loglikelihood!(w, K80(2.0), data; output_calculations=true)
+    oldll, oldmatrices, _ = reference_loglikelihood(tree, K80(2.0), data; output_calculations=true)
+    @test ll ≈ oldll
+    @test all(matrices[id] ≈ oldmatrices[id] for id in order)
+    @test loglikelihood(tree, K80(2.0), data; compress=false) ≈ ll
+    # Change one occurrence of a repeated column, in place, and split its group.
+    id = first(findleaves(tree))
+    data[id].data[:, 4] .= [false, true, false, false]
+    @test loglikelihood!(w, JC69(), data) ≈ reference_loglikelihood(tree, JC69(), data)
+    @test size(w.scratch, 2) == 4
+    # Replacement sequences can merge all patterns again.
+    for id in keys(data)
+      data[id] = seqtype("AAAAAA")
+    end
+    @test loglikelihood!(w, JC69(), data) ≈ reference_loglikelihood(tree, JC69(), data)
+    @test size(w.scratch, 2) == 1
+    full = LikelihoodWorkspace(tree, data; compress=false)
+    @test size(full.scratch, 2) == 6
+  end
+end
