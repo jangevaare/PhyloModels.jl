@@ -6,6 +6,7 @@ module PhyloModels
 
   import SubstitutionModels._π
   import Base.rand
+  using LinearAlgebra: mul!
 
   # Re-export all of PhyloTrees, SubstitutionModels, and GeneticBitArrays
   for name in names(PhyloTrees)
@@ -26,6 +27,6 @@ module PhyloModels
   include("loglikelihood.jl")
   include("simulate.jl")
 
-  export NodeDNA, NodeRNA, simulate!, simulate, rand, loglikelihood
+  export NodeDNA, NodeRNA, simulate!, simulate, rand, loglikelihood, LikelihoodWorkspace, loglikelihood!
 
 end # module
