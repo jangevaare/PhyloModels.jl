@@ -1,18 +1,21 @@
 name = "PhyloModels"
 uuid = "6465ae08-de3a-5dbe-bda8-3920f6a01ab7"
 authors = ["Justin Angevaare <justinangevaare@gmail.com>"]
-version = "0.3.4"
+version = "0.4.0"
 
 [deps]
-LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 GeneticBitArrays = "5d6f8c34-7f74-4dab-a49b-48b3414fbfce"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 PhyloTrees = "4c47b132-0681-5a5d-b498-3afcf53fd314"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 SubstitutionModels = "8365b1bb-bd83-58ee-a267-f2965fc81c73"
 
 [compat]
 GeneticBitArrays = "0.2.1, 0.3"
-PhyloTrees = "0.10, 0.11"
-SubstitutionModels = "0.4, 0.5"
+PhyloTrees = "0.10, 0.11, 0.12"
+StatsBase = "0.32, 0.33"
+SubstitutionModels = "0.4, 0.5, 0.6"
 julia = "1"
 
 [extras]

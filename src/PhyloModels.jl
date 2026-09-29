@@ -5,7 +5,9 @@ module PhyloModels
         GeneticBitArrays
 
   import SubstitutionModels._π
-  import Base.rand
+  import Random
+  import Random: rand, AbstractRNG
+  using StatsBase: sample, Weights
   using LinearAlgebra: mul!
 
   # Re-export all of PhyloTrees, SubstitutionModels, and GeneticBitArrays

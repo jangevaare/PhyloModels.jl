@@ -165,3 +165,54 @@ end
     @test size(full.scratch, 2) == 6
   end
 end
+
+
+using Random
+@testset "Explicit random number generators" begin
+  generators = [MersenneTwister]
+  if isdefined(Random, :Xoshiro)
+    push!(generators, Random.Xoshiro)
+  end
+  rates = repeat([0.0, 0.5, 1.0, 1.0], 16)
+  for generator in generators, seqtype in (DNASeq, RNASeq)
+    root = seqtype(repeat("ACNR", 16))
+    saved = copy(root.data)
+    calls = (
+      rng -> rand(rng, seqtype, K80(2.0), 64),
+      rng -> simulate(rng, seqtype, tree, K80(2.0), 64),
+      rng -> simulate(rng, seqtype, tree, K80(2.0), rates),
+      rng -> simulate!(rng, root, tree, K80(2.0), rates),
+    )
+    for call in calls
+      @test call(generator(123)) == call(generator(123))
+      rng = generator(123)
+      call(rng)
+      @test rand(rng) != rand(generator(123))
+      # An explicit RNG must not consume or reseed the default random stream.
+      Random.seed!(987)
+      expected = rand()
+      Random.seed!(987)
+      call(generator(123))
+      @test rand() == expected
+    end
+    @test root.data == saved
+    result = simulate!(generator(123), root, tree, K80(2.0), rates)
+    @test result[last(postorder(tree))] === root
+    @test isempty(rand(generator(123), seqtype, JC69(), 0).data)
+    @test length(simulate(generator(123), seqtype, tree, JC69(), Float64[])[1]) == 0
+    @test_throws ErrorException simulate!(generator(123), root, tree, JC69(), [1.0])
+    if generator == MersenneTwister
+      for call in (
+        () -> rand(seqtype, K80(2.0), 64),
+        () -> simulate(seqtype, tree, K80(2.0), 64),
+        () -> simulate(seqtype, tree, K80(2.0), rates),
+        () -> simulate!(root, tree, K80(2.0), rates),
+      )
+        Random.seed!(123)
+        first_result = call()
+        Random.seed!(123)
+        @test call() == first_result
+      end
+    end
+  end
+end
