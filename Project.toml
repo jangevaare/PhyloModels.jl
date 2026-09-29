@@ -4,6 +4,7 @@ authors = ["Justin Angevaare <justinangevaare@gmail.com>"]
 version = "0.3.4"
 
 [deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 GeneticBitArrays = "5d6f8c34-7f74-4dab-a49b-48b3414fbfce"
 PhyloTrees = "4c47b132-0681-5a5d-b498-3afcf53fd314"
 SubstitutionModels = "8365b1bb-bd83-58ee-a267-f2965fc81c73"
