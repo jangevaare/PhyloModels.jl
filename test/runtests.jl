@@ -41,3 +41,23 @@ node_data = simulate(DNASeq,
                      model,
                      1000)
 @test length(node_data[1]) == 1000
+
+@testset "Simulation distributions" begin
+  for seqtype in (DNASeq, RNASeq)
+    seq = seqtype(seqtype == DNASeq ? "ACGTNR" : "ACGUNR")
+    p = P(K80(2.0), 0.2)
+    old = [Weights(p * seq.data[:, j]) for j in 1:length(seq)]
+    new = PhyloModels._transition_weights(p, seq.data)
+    @test all(collect(old[j]) ≈ collect(new[j]) for j in eachindex(old))
+    rates = [1.0, 0.0, 1.0, 2.0, 2.0, 0.5]
+    old = [Weights(P(K80(2.0), 0.2*rates[j]) * seq.data[:, j]) for j in eachindex(rates)]
+    new = PhyloModels._transition_weights(K80(2.0), 0.2, seq.data, rates)
+    @test all(collect(old[j]) ≈ collect(new[j]) for j in eachindex(old))
+    @test length(simulate(seqtype, tree, K80(2.0), rates)[1]) == length(rates)
+    @test length(simulate!(seq, tree, K80(2.0), rates)[1]) == length(rates)
+  end
+  seq = DNASeq("AAAA")
+  weights = PhyloModels._transition_weights(P(K80(2.0), 0.1), seq.data)
+  @test weights[1] === weights[4]
+  @test isempty(PhyloModels._transition_weights(P(K80(2.0), 0.1), DNASeq("").data))
+end
